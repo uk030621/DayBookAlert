@@ -30,7 +30,7 @@ export default function Toolbar({
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search reminders…"
-            className="w-full bg-white/70 dark:bg-dusk-card/70 border border-rule dark:border-dusk-rule rounded-md pl-10 pr-9 py-2.5 text-sm text-ink dark:text-paper placeholder:text-ink-faint dark:placeholder:text-paper/40 focus:ring-2 focus:ring-amber/40 outline-none transition"
+            className="w-full bg-white/70 dark:bg-dusk-card/70 border border-rule dark:border-dusk-rule rounded-md pl-10 pr-9 py-2.5 text-base sm:text-sm text-ink dark:text-paper placeholder:text-ink-faint dark:placeholder:text-paper/40 focus:ring-2 focus:ring-amber/40 outline-none transition"
           />
           {search && (
             <button
@@ -72,7 +72,7 @@ export default function Toolbar({
         <select
           value={category}
           onChange={(e) => onCategoryChange(e.target.value)}
-          className="flex-1 min-w-0 bg-white/60 dark:bg-dusk-card/60 border border-rule dark:border-dusk-rule rounded-md px-2.5 py-1.5 text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+          className="flex-1 min-w-0 bg-white/60 dark:bg-dusk-card/60 border border-rule dark:border-dusk-rule rounded-md px-2.5 py-1.5 text-base sm:text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
         >
           <option value="all">All categories</option>
           {categories.map((c) => (
@@ -85,7 +85,7 @@ export default function Toolbar({
         <select
           value={sort}
           onChange={(e) => onSortChange(e.target.value)}
-          className="flex-1 min-w-0 bg-white/60 dark:bg-dusk-card/60 border border-rule dark:border-dusk-rule rounded-md px-2.5 py-1.5 text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+          className="flex-1 min-w-0 bg-white/60 dark:bg-dusk-card/60 border border-rule dark:border-dusk-rule rounded-md px-2.5 py-1.5 text-base sm:text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
         >
           <option value="dueDate">Sort by due date</option>
           <option value="priority">Sort by priority</option>
