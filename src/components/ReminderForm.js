@@ -140,7 +140,7 @@ export default function ReminderForm({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Call the dentist"
               maxLength={200}
-              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
             />
           </div>
 
@@ -154,7 +154,7 @@ export default function ReminderForm({
               placeholder="Any details worth remembering"
               rows={3}
               maxLength={2000}
-              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40 resize-none"
+              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40 resize-none"
             />
           </div>
 
@@ -185,7 +185,7 @@ export default function ReminderForm({
                   onChange={(e) =>
                     setRemindMinutesBefore(Number(e.target.value))
                   }
-                  className="w-full min-w-0 mt-2 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2 text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+                  className="w-full min-w-0 mt-2 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2 text-base sm:text-xs text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
                 >
                   {LEAD_TIME_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -214,7 +214,7 @@ export default function ReminderForm({
                       setCategory(e.target.value);
                     }
                   }}
-                  className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+                  className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
                 >
                   {Array.from(
                     new Set(
@@ -239,7 +239,7 @@ export default function ReminderForm({
                     onChange={(e) => setCategory(e.target.value)}
                     placeholder="New category name"
                     maxLength={50}
-                    className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+                    className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
                   />
                   <button
                     type="button"
@@ -286,7 +286,7 @@ export default function ReminderForm({
             <select
               value={recurrence}
               onChange={(e) => setRecurrence(e.target.value)}
-              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+              className="w-full bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-3 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
             >
               {RECURRENCES.map((r) => (
                 <option key={r.value} value={r.value}>
