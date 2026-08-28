@@ -161,21 +161,21 @@ export default function ReminderForm({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="min-w-0">
               <label className="block text-xs font-medium text-ink-faint dark:text-paper/50 mb-1.5">
-                Due
+                Due Date & Time
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex gap-2">
                 <input
                   type="date"
                   value={dueDatePart}
                   onChange={(e) => setDueDatePart(e.target.value)}
-                  className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-2 sm:px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
+                  className="w-1/2 min-w-0 appearance-none bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-2 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40"
                 />
                 <input
                   type="time"
                   value={dueTimePart}
                   onChange={(e) => setDueTimePart(e.target.value)}
                   disabled={!dueDatePart}
-                  className="w-full min-w-0 bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-2 sm:px-3 py-2.5 text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40 disabled:opacity-50"
+                  className="w-1/2 min-w-0 appearance-none bg-white/70 dark:bg-dusk/70 border border-rule dark:border-dusk-rule rounded-md px-2 py-2.5 text-base sm:text-sm text-ink dark:text-paper outline-none focus:ring-2 focus:ring-amber/40 disabled:opacity-50"
                 />
               </div>
 
