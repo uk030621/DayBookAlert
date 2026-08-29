@@ -28,6 +28,13 @@ const ReminderSchema = new Schema(
       type: Date,
       default: null,
     },
+    // IANA timezone (e.g. "Europe/London"), captured from the browser at
+    // creation time. Used only to format the due time correctly in reminder
+    // emails — the stored dueDate itself is always a real UTC instant.
+    timezone: {
+      type: String,
+      default: null,
+    },
     priority: {
       type: String,
       enum: ["low", "medium", "high"],

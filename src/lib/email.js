@@ -18,7 +18,8 @@ const PRIORITY_LABEL = {
   high: "High priority",
 };
 
-function formatDue(date) {
+function formatDue(date, timezone) {
+  // ← whole function already updated
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
@@ -26,6 +27,7 @@ function formatDue(date) {
     hour: "numeric",
     minute: "2-digit",
     timeZoneName: "short",
+    timeZone: timezone || "UTC", // ← this is the key line
   }).format(new Date(date));
 }
 
@@ -35,7 +37,9 @@ export async function sendReminderEmail(reminder) {
   const fromAddress =
     process.env.EMAIL_FROM || "Daybook <onboarding@resend.dev>";
 
-  const dueText = reminder.dueDate ? formatDue(reminder.dueDate) : null;
+  const dueText = reminder.dueDate
+    ? formatDue(reminder.dueDate, reminder.timezone) // ← already passing timezone
+    : null;
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 480px; margin: 0 auto; color: #16302A;">

@@ -76,6 +76,7 @@ export async function POST(request) {
     title: body.title.trim(),
     notes: body.notes?.trim() || "",
     dueDate: body.dueDate ? new Date(body.dueDate) : null,
+    timezone: body.timezone || null, // ← already here
     priority: ["low", "medium", "high"].includes(body.priority)
       ? body.priority
       : "medium",

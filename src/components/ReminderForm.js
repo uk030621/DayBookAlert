@@ -98,6 +98,9 @@ export default function ReminderForm({
         category: category.trim() || "General",
         recurrence,
         remindMinutesBefore: combinedDueDate ? remindMinutesBefore : undefined,
+        timezone: combinedDueDate // ← already here
+          ? Intl.DateTimeFormat().resolvedOptions().timeZone // ← already here
+          : undefined, // ← already here
       });
     } catch (err) {
       setError(err.message || "Something went wrong. Try again.");

@@ -47,6 +47,7 @@ export async function PUT(request, { params }) {
   if (body.notes !== undefined) update.notes = body.notes.trim();
   if (body.dueDate !== undefined)
     update.dueDate = body.dueDate ? new Date(body.dueDate) : null;
+  if (body.timezone !== undefined) update.timezone = body.timezone || null; // ← already here
   if (body.priority !== undefined) update.priority = body.priority;
   if (body.category !== undefined)
     update.category = body.category.trim() || "General";
