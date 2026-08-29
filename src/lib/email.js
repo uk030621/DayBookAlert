@@ -19,15 +19,16 @@ const PRIORITY_LABEL = {
 };
 
 function formatDue(date, timezone) {
-  // ← whole function already updated
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
-    timeZoneName: "short",
-    timeZone: timezone || "UTC", // ← this is the key line
+    timeZoneName: "long", // ← changed from "short" to "long"
+    // Falling back to UTC only happens for reminders created before this
+    // field existed, or if a browser ever fails to report its timezone.
+    timeZone: timezone || "UTC",
   }).format(new Date(date));
 }
 
