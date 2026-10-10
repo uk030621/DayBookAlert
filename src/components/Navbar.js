@@ -4,11 +4,13 @@ import { signOut } from "next-auth/react";
 import { NotebookPen, LogOut } from "lucide-react";
 import Image from "next/image";
 import ThemeToggle from "./ThemeToggle";
+import PushToggle from "./PushToggle";
+import { forgetThisDeviceOnServer } from "../lib/pushClient";
 
 export default function Navbar({ user }) {
   return (
     <header className="sticky top-0 z-30 backdrop-blur bg-paper/85 dark:bg-dusk/85 border-b border-rule dark:border-dusk-rule">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-ink dark:bg-paper flex items-center justify-center shrink-0">
             <NotebookPen className="w-4 h-4 text-paper dark:text-ink" />
@@ -19,6 +21,8 @@ export default function Navbar({ user }) {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
+          <PushToggle />
+
           <ThemeToggle />
 
           <div className="w-px h-6 bg-rule dark:bg-dusk-rule mx-1 hidden sm:block" />
@@ -43,7 +47,10 @@ export default function Navbar({ user }) {
           </div>
 
           <button
-            onClick={() => signOut({ callbackUrl: "/login" })}
+            onClick={async () => {
+              await forgetThisDeviceOnServer();
+              signOut({ callbackUrl: "/login" });
+            }}
             title="Sign out"
             className="p-2 rounded-md text-ink-faint hover:text-coral dark:text-paper/60 dark:hover:text-coral hover:bg-coral/10 transition"
           >

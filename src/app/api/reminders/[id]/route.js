@@ -42,6 +42,16 @@ export async function PUT(request, { params }) {
 
   await connectToDatabase();
 
+  // Needed to tell a genuine change of due date / lead time apart from a
+  // form that simply re-sends the existing values.
+  const existing = await Reminder.findOne({
+    _id: id,
+    userId: session.user.id,
+  }).lean();
+  if (!existing) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   const update = {};
   if (body.title !== undefined) update.title = body.title.trim();
   if (body.notes !== undefined) update.notes = body.notes.trim();
@@ -57,6 +67,7 @@ export async function PUT(request, { params }) {
     const minutes = Number(body.remindMinutesBefore);
     update.remindMinutesBefore = Number.isFinite(minutes) ? minutes : 60;
   }
+  if (body.pushEnabled !== undefined) update.pushEnabled = !!body.pushEnabled;
   if (body.completed !== undefined) {
     update.completed = !!body.completed;
     update.completedAt = body.completed ? new Date() : null;
@@ -67,6 +78,19 @@ export async function PUT(request, { params }) {
   // sends a fresh one at the new time.
   if (body.dueDate !== undefined || body.remindMinutesBefore !== undefined) {
     update.reminderEmailSentAt = null;
+  }
+
+  // The push is re-armed only when the moment it should fire has really
+  // moved — editing a title or notes must not buzz the phone a second time.
+  const dueChanged =
+    update.dueDate !== undefined &&
+    (update.dueDate?.getTime() ?? null) !==
+      (existing.dueDate ? new Date(existing.dueDate).getTime() : null);
+  const leadChanged =
+    update.remindMinutesBefore !== undefined &&
+    update.remindMinutesBefore !== (existing.remindMinutesBefore ?? 60);
+  if (dueChanged || leadChanged) {
+    update.pushSentAt = null;
   }
 
   const reminder = await Reminder.findOneAndUpdate(

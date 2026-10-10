@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
+import SwitchRow from "./SwitchRow";
 
 const PRIORITIES = ["low", "medium", "high"];
 const RECURRENCES = [
@@ -45,6 +46,7 @@ export default function ReminderForm({
   const [categoryMode, setCategoryMode] = useState("select");
   const [recurrence, setRecurrence] = useState("none");
   const [remindMinutesBefore, setRemindMinutesBefore] = useState(60);
+  const [pushEnabled, setPushEnabled] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const titleRef = useRef(null);
@@ -63,6 +65,7 @@ export default function ReminderForm({
     setCategoryMode("select");
     setRecurrence(initial?.recurrence || "none");
     setRemindMinutesBefore(initial?.remindMinutesBefore ?? 60);
+    setPushEnabled(initial?.pushEnabled !== false);
     setError("");
     setSubmitting(false);
     setTimeout(() => titleRef.current?.focus(), 30);
@@ -98,6 +101,7 @@ export default function ReminderForm({
         category: category.trim() || "General",
         recurrence,
         remindMinutesBefore: combinedDueDate ? remindMinutesBefore : undefined,
+        pushEnabled,
         timezone: combinedDueDate // ← already here
           ? Intl.DateTimeFormat().resolvedOptions().timeZone // ← already here
           : undefined, // ← already here
@@ -192,7 +196,7 @@ export default function ReminderForm({
                 >
                   {LEAD_TIME_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
-                      Email me {opt.label.toLowerCase()}
+                      Remind me {opt.label.toLowerCase()}
                     </option>
                   ))}
                 </select>
@@ -298,6 +302,17 @@ export default function ReminderForm({
               ))}
             </select>
           </div>
+
+          {dueDatePart && (
+            <div className="rounded-md border border-rule dark:border-dusk-rule bg-white/40 dark:bg-dusk/40">
+              <SwitchRow
+                label="Push notification"
+                description="Also notify my devices at the reminder time"
+                checked={pushEnabled}
+                onChange={setPushEnabled}
+              />
+            </div>
+          )}
 
           {error && (
             <p className="text-sm text-coral-dark dark:text-coral">{error}</p>

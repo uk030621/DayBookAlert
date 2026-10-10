@@ -184,6 +184,7 @@ export default function Dashboard({ user }) {
           category: reminder.category,
           recurrence: reminder.recurrence,
           remindMinutesBefore: reminder.remindMinutesBefore,
+          pushEnabled: reminder.pushEnabled !== false,
           timezone: reminder.timezone, // ← already here
         }),
       });

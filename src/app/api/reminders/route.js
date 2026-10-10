@@ -87,6 +87,8 @@ export async function POST(request) {
     pinned: !!body.pinned,
     remindMinutesBefore,
     reminderEmailSentAt: null,
+    pushEnabled: body.pushEnabled === undefined ? true : !!body.pushEnabled,
+    pushSentAt: null,
   });
 
   return NextResponse.json({ reminder }, { status: 201 });
