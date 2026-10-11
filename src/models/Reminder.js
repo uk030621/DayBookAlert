@@ -89,6 +89,17 @@ const ReminderSchema = new Schema(
       type: Date,
       default: null,
     },
+    // Diagnostics only: when the cron job last tried to push this reminder,
+    // and what happened (delivered, waiting for a device, failed, skipped…).
+    pushLastAttemptAt: {
+      type: Date,
+      default: null,
+    },
+    pushLastResult: {
+      type: String,
+      default: null,
+      maxlength: 300,
+    },
   },
   { timestamps: true },
 );

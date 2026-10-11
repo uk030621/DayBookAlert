@@ -91,6 +91,8 @@ export async function PUT(request, { params }) {
     update.remindMinutesBefore !== (existing.remindMinutesBefore ?? 60);
   if (dueChanged || leadChanged) {
     update.pushSentAt = null;
+    update.pushLastAttemptAt = null;
+    update.pushLastResult = null;
   }
 
   const reminder = await Reminder.findOneAndUpdate(

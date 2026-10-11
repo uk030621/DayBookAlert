@@ -102,7 +102,7 @@ Android and desktop Chrome, Edge and Firefox work straight from the browser.
 | `src/components/PushToggle.js` | The bell and its menu in the top bar |
 | `src/components/SwitchRow.js` | The on/off switch used in forms |
 | `src/app/api/cron/send-reminder-emails/route.js` | Now also sends pushes (same URL, same secret) |
-| `src/models/Reminder.js` | New fields: `pushEnabled`, `pushSentAt` |
+| `src/models/Reminder.js` | New fields: `pushEnabled`, `pushSentAt`, `pushLastAttemptAt`, `pushLastResult` |
 | `src/app/api/reminders/*` | Accept and save the new fields |
 | `src/components/ReminderForm.js` | Push switch; email wording changed to "Remind me" |
 | `src/components/Navbar.js` | Bell added; sign-out forgets the device |
@@ -122,6 +122,34 @@ No change. The response now includes a `push` section, which is useful when you 
 - `push.waiting`: a push was due but no device is registered yet (retried each run for 3 hours)
 - `push.skippedStale`: skipped because the time had passed by more than 3 hours
 - `push.failed`: the push service rejected it. The `errors` list says why
+
+## Diagnosing a missed push
+
+Each reminder now records what the cron job last did with its push. In Atlas (Open MongoDB shell), on this app's database:
+
+```
+db.reminders.find(
+  { title: /part of the title/i },
+  { title: 1, dueDate: 1, remindMinutesBefore: 1, pushEnabled: 1,
+    pushSentAt: 1, pushLastAttemptAt: 1, pushLastResult: 1, reminderEmailSentAt: 1 }
+)
+```
+
+`pushLastResult` will be one of:
+
+| Value | Meaning |
+|---|---|
+| `delivered to push service for N of M device(s)` | The server sent it successfully. If nothing appeared, check the phone: Focus or Do Not Disturb, notification settings, and (iPhone) that you use the Home Screen icon |
+| `waiting: no devices registered for notifications` | No device was registered under your account when the cron job ran. It retries every run for 3 hours |
+| `no live devices: N expired device(s) removed` | Every registered device had expired. Turn notifications off and on again in the bell |
+| `failed: 401 …` or `failed: 403 …` | The VAPID keys don't match, or `VAPID_SUBJECT` is wrong |
+| `failed: 5xx …` | The push service had a problem. It retries on the next run |
+| `skipped: notify time passed Nh ago` | Skipped as stale (more than 3 hours late) |
+| `skipped: push not configured on the server (VAPID keys missing)` | The server had no VAPID keys loaded at that time. Remember Vercel only applies new variables to deployments built after they were added |
+| `error: …` | The send threw an error; the text says what |
+| *(empty)* | The cron job never reached the push step. Check `pushEnabled`, the due date and the lead time |
+
+The same line also appears in the Vercel function logs for the cron route, as `[cron:push] reminder=<id> …`. Only the reminder id is logged, never titles or email addresses. In Vercel: your project, Logs, then search for `cron:push`.
 
 ## Troubleshooting
 
