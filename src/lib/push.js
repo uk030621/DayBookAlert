@@ -46,6 +46,13 @@ export async function sendPushToUsers(userIds, payload) {
   }).lean();
   const body = JSON.stringify(payload);
 
+  // Nothing found for this user: say how many devices the database holds
+  // overall, so a missing row can be told apart from a lookup problem.
+  if (!subscriptions.length) {
+    const total = await PushSubscription.countDocuments({});
+    result.note = `looked for user ending ${String(ids[0]).slice(-4)}; database holds ${total} device(s) in total`;
+  }
+
   await Promise.all(
     subscriptions.map(async (sub) => {
       result.attempted += 1;

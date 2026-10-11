@@ -137,7 +137,10 @@ export async function GET(request) {
           } else {
             // No registered device yet. Left unmarked, so turning
             // notifications on shortly afterwards still catches it.
-            recordPush(reminder, "waiting: no devices registered for notifications");
+            recordPush(
+              reminder,
+              `waiting: no devices registered for notifications${result.note ? ` (${result.note})` : ""}`,
+            );
             changed = true;
             push.waiting += 1;
           }
