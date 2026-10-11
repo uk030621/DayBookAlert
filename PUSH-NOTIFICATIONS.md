@@ -83,7 +83,7 @@ Android and desktop Chrome, Edge and Firefox work straight from the browser.
 - **Per reminder:** a **Push notification** switch appears once a reminder has a due date. It is **on by default**.
 - **Same timing as email:** the existing "Remind me … before" setting controls both.
 - **Once only:** each reminder is pushed once. Editing the title or notes does not re-send it. Changing the due date or lead time does.
-- **Several devices:** every device you have switched on gets the notification. Signing out removes that device.
+- **Several devices:** every device you have switched on gets the notification. Signing out does **not** switch notifications off, so reminders still arrive on a signed-out phone. Before handing a device to someone else, tap **Turn off** in the bell menu. A lost or old device can be removed from any other device you are signed in on, under **Your other devices** in the bell menu.
 - **Stale reminders are skipped:** if a reminder's notification time passed more than 3 hours ago (for example, the scheduler was down), the push is skipped rather than arriving late.
 - **Existing reminders:** reminders created before this update count as push-on, but the 3-hour rule means you will not get a flood of old ones.
 - **Dead devices tidy themselves:** if a browser tells the server a subscription is gone, it is deleted automatically.
@@ -94,10 +94,11 @@ Android and desktop Chrome, Edge and Firefox work straight from the browser.
 |---|---|
 | `public/sw.js` | Service worker: shows the notification and opens the app when tapped |
 | `src/lib/push.js` | Sends pushes with `web-push`, builds the message (UK date format) |
-| `src/lib/pushClient.js` | Browser helpers (subscribe, detect iPhone, sign-out clean-up) |
+| `src/lib/pushClient.js` | Browser helpers (subscribe, detect iPhone) |
 | `src/models/PushSubscription.js` | One row per device |
 | `src/app/api/push/public-key` | Hands the public key to the browser |
 | `src/app/api/push/subscribe` | Saves or removes a device |
+| `src/app/api/push/devices` | Lists your devices and removes one (**Your other devices**) |
 | `src/app/api/push/test` | The **Send a test** button |
 | `src/components/PushToggle.js` | The bell and its menu in the top bar |
 | `src/components/SwitchRow.js` | The on/off switch used in forms |
@@ -105,7 +106,7 @@ Android and desktop Chrome, Edge and Firefox work straight from the browser.
 | `src/models/Reminder.js` | New fields: `pushEnabled`, `pushSentAt`, `pushLastAttemptAt`, `pushLastResult` |
 | `src/app/api/reminders/*` | Accept and save the new fields |
 | `src/components/ReminderForm.js` | Push switch; email wording changed to "Remind me" |
-| `src/components/Navbar.js` | Bell added; sign-out forgets the device |
+| `src/components/Navbar.js` | Bell added |
 | `next.config.js` | Stops browsers caching `sw.js` |
 
 No database migration is needed. The `pushsubscriptions` collection is created automatically the first time someone turns notifications on.

@@ -68,6 +68,7 @@ export async function sendPushToUsers(userIds, payload) {
         result.delivered += 1;
       } catch (err) {
         if (err.statusCode === 404 || err.statusCode === 410) {
+          console.log(`[push] device removed: push service said ${err.statusCode} (expired or unsubscribed)`);
           await PushSubscription.deleteOne({ _id: sub._id });
           result.removed += 1;
         } else {
