@@ -111,8 +111,8 @@ export default function ReminderCard({
       </div>
 
       <div
-        className="flex items-center gap-4 mt-3 pl-8 border-t border-rule/60 dark:border-dusk-rule/60 pt-2 -mb-3
-    sm:gap-1 sm:mt-0 sm:pl-0 sm:pt-0 sm:border-t-0 sm:mb-0
+        className="flex items-center justify-evenly mt-3 px-4 pt-1.5 pb-2 border-t border-rule/60 dark:border-dusk-rule/60
+    sm:justify-start sm:gap-1 sm:mt-0 sm:p-0 sm:border-t-0
     sm:absolute sm:top-2 sm:right-2
     sm:opacity-0 sm:group-hover:opacity-100 sm:focus-within:opacity-100 sm:transition"
       >
@@ -140,7 +140,7 @@ export default function ReminderCard({
         <button
           onClick={() => onDelete(reminder)}
           title="Delete"
-          className="ml-auto sm:ml-0 p-3 sm:p-1.5 rounded text-ink-faint dark:text-paper/50 hover:bg-coral/10 hover:text-coral-dark dark:hover:text-coral"
+          className="p-3 sm:p-1.5 rounded text-ink-faint dark:text-paper/50 hover:bg-coral/10 hover:text-coral-dark dark:hover:text-coral"
         >
           <Trash2 className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
         </button>
